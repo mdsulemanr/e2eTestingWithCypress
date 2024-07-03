@@ -1,8 +1,12 @@
 describe('Check Radio Buttons', () => {
 
+    beforeEach('visit site', ()=>{
+        cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
+
+    })
+
     it("Select radio buttons", () => {
 
-        cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
 
         // check radio buttons are visible
         cy.get("input#male").should("be.visible")
@@ -21,7 +25,7 @@ describe('Check Radio Buttons', () => {
 
     it("Select check boxes", () => {
 
-        cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
+        // cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
 
         // check check boxes are visible
         cy.get("input#sunday").should("be.visible")

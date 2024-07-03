@@ -14,7 +14,7 @@ describe('Files Uploads', () => {
         
 })
 
-it('File upload - Rename', ()=>{
+it.only('File upload - Rename', ()=>{
     cy.visit("https://the-internet.herokuapp.com/upload")
     cy.get("#file-upload").attachFile({filePath: "test01.pdf", fileName: "myFile.pdf"}) // rename the file during uploading
     cy.get("#file-submit").click()
@@ -42,7 +42,7 @@ it('Multiple Files upload - Drag and drop', ()=>{
 })
 
 // url: https://www.htmlelements.com/demos/fileupload/shadow-dom/index.htm
-it.only('File upload - Shadow DOM', ()=>{
+it('File upload - Shadow DOM', ()=>{
     cy.visit("https://www.htmlelements.com/demos/fileupload/shadow-dom/index.htm")
 
     // Alert: This element is not interactable through selenium(automation) as it is not visible in UI. Try any near by element. Learn more...

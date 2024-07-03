@@ -31,6 +31,7 @@ describe('Test Login', () => {
 
             cy.visit("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
 
+            cy.wait(10000)
             data.forEach((userdata)=>{
 
             cy.get("input[placeholder='Username']").type(userdata.username)

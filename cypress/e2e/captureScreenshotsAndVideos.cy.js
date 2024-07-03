@@ -1,5 +1,5 @@
 describe('My Suite', () => {
-    it('Capture SS & Videos', () => {
+    it.only('Capture SS & Videos', () => {
         cy.visit("https://demo.opencart.com/")
         cy.screenshot("homepage")
         cy.wait(5000)
@@ -7,7 +7,7 @@ describe('My Suite', () => {
 
     })
 
-    it.only('Capture SS & Videos - Automatically', () => {
+    it('Capture SS & Videos - Automatically', () => {
         cy.visit("https://demo.opencart.com/")
 
         // Automatically capture SS & Video on failure - only when you execute through CLI

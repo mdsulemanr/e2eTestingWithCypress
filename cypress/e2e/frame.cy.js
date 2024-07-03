@@ -17,7 +17,7 @@ describe('Handle iframe', () => {
 })
 
     //Approach 2
-    it.only('Approach2 - by using custome command', ()=>{
+    it('Approach2 - by using custome command', ()=>{
         cy.visit("https://the-internet.herokuapp.com/iframe")
 
         cy.getIframe("#mce_0_ifr")
@@ -31,7 +31,7 @@ describe('Handle iframe', () => {
 
 
     //Approach 3
-    it('Approach3 - by using cypress-iframe plugin', ()=>{
+    it.only('Approach3 - by using cypress-iframe plugin', ()=>{
         cy.visit("https://the-internet.herokuapp.com/iframe")
         
         cy.frameLoaded("#mce_0_ifr") // load the frame
