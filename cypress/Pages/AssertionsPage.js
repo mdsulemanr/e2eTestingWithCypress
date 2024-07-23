@@ -1,45 +1,57 @@
+// cypress/Pages/LoginPage.js
+
 class LoginPage {
+    constructor() {
+        this.url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+        this.usernamePlaceholder = "input[placeholder='Username']";
+        this.passwordPlaceholder = "input[placeholder='Password']";
+        this.submitButtonType = "button[type='submit']";
+        this.userDropdownNameSelector = ".oxd-userdropdown-name";
+        this.logoSelector = '.orangehrm-login-branding > img';
+        this.linksXpath = '//a';
+    }
+
     visit() {
-        cy.visit("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+        cy.visit(this.url);
     }
 
     getUrl() {
-        return cy.url()
+        return cy.url();
     }
 
     getTitle() {
-        return cy.title()
+        return cy.title();
     }
 
     getLogo() {
-        return cy.get('.orangehrm-login-branding > img')
+        return cy.get(this.logoSelector);
     }
 
     getLinks() {
-        return cy.xpath('//a')
+        return cy.xpath(this.linksXpath);
     }
 
     getUsernameInput() {
-        return cy.get("input[placeholder='Username']")
+        return cy.get(this.usernamePlaceholder);
     }
 
     getPasswordInput() {
-        return cy.get("input[placeholder='Password']")
+        return cy.get(this.passwordPlaceholder);
     }
 
     getSubmitButton() {
-        return cy.get("button[type='submit']")
+        return cy.get(this.submitButtonType);
     }
 
     getUserDropdownName() {
-        return cy.get(".oxd-userdropdown-name")
+        return cy.get(this.userDropdownNameSelector);
     }
 
     login(username, password) {
-        this.getUsernameInput().type(username)
-        this.getPasswordInput().type(password)
-        this.getSubmitButton().click()
+        this.getUsernameInput().type(username);
+        this.getPasswordInput().type(password);
+        this.getSubmitButton().click();
     }
 }
 
-export default LoginPage
+export default LoginPage;
