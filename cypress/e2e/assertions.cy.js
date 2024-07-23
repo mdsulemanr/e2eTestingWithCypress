@@ -1,64 +1,60 @@
+// cypress/integration/assertionsDemo.spec.js
+
+import LoginPage from '../Pages/AssertionsPage'
+
 describe('Assertions demo', () => {
+    const loginPage = new LoginPage()
 
     it("Implicit assertions", () => {
+        loginPage.visit()
 
-        cy.visit("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")  // fisrt visit the site
+        // URL assertions
+        loginPage.getUrl().should('include', 'orangehrmlive.com')
+        loginPage.getUrl().should('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+        loginPage.getUrl().should('contain', 'orangehrm')
 
-        // should, and
+        // Chained assertions
+        loginPage.getUrl().should('include', 'orangehrmlive.com')
+            .should('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+            .should('contain', 'orangehrm')
+        
+        loginPage.getUrl().should('include', 'orangehrmlive.com')
+            .and('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+            .and('contain', 'orangehrm')
+            .and('not.contain', 'greenhrm')
 
-        // cy.url().should('include', 'orangehrmlive.com')
-        // cy.url().should('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        // cy.url().should('contain', 'orangehrm')
+        // Title assertions
+        loginPage.getTitle().should('include', 'Orange')
+            .and('eq', 'OrangeHRM')
+            .and('contain', 'HRM')
 
-        // instead of wirting/capturing url again and again we can start next assertions with only .should keyword
-        /*cy.url().should('include', 'orangehrmlive.com')
-        .should('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        .should('contain', 'orangehrm')*/
+        // Logo assertions
+        loginPage.getLogo().should('be.visible')
+            .and('exist')
 
-        // instead of writing should again and again
-        cy.url().should('include', 'orangehrmlive.com')
-        .and('eq', 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        .and('contain', 'orangehrm')
-        .and('not.contain', 'greenhrm')
+        // Links assertions
+        loginPage.getLinks().should('have.length', '5')
 
-        // put validation on title
-        cy.title().should('include', 'Orange')
-        .and('eq', 'OrangeHRM')
-        .and('contain', 'HRM')
-
-        //put validation/assertions on Logo
-        cy.get('.orangehrm-login-branding > img').should('be.visible') // logo is visible
-        .and('exist') // elements exists on page
-
-        cy.xpath('//a').should('have.length', '5') // check no of links on the page
-
-        cy.get("input[placeholder='Username']").type("Admin") //provide value into inbox box
-
-        cy.get("input[placeholder='Username']").should('have.value', 'Admin') // value check
-
-    })  //Builtin assertions also called implicit assertions
-        it("Explicit assertions", () => {
-
-            cy.visit("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")  // fisrt visit the site
-
-            cy.get("input[placeholder='Username']").type("Admin")
-            cy.get("input[placeholder='Password']").type("admin123")
-            cy.get("button[type='submit']").click()
-            
-            let expName = "Ravi Arole";
-
-            //BDD Style
-            cy.get(".oxd-userdropdown-name").then(  (comapareName)=>{
-                let actName = comapareName.text()
-                expect(actName).to.equal(expName)
-                expect(actName).to.not.equal(expName)
-            
-                //TDD Style
-                assert.equal(expName, actName)
-                assert.notEqual(expName, actName)
-            })
-    
-    
+        // Username input assertions
+        loginPage.getUsernameInput().type("Admin")
+        loginPage.getUsernameInput().should('have.value', 'Admin')
     })
- 
+
+    it("Explicit assertions", () => {
+        loginPage.visit()
+        loginPage.login("Admin", "admin123")
+
+        let expName = "Ravi Arole";
+
+        // BDD Style
+        loginPage.getUserDropdownName().then((compareName) => {
+            let actName = compareName.text()
+            expect(actName).to.equal(expName)
+            expect(actName).to.not.equal(expName)
+
+            // TDD Style
+            assert.equal(expName, actName)
+            assert.notEqual(expName, actName)
+        })
+    })
 })

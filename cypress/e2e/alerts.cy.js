@@ -1,7 +1,7 @@
 //  https://docs.cypress.io/api/cypress-api/catalog-of-events
 
-import "../PageObject/AlertsPage"
-import javascriptAlert from "../PageObject/AlertsPage"
+import "../Pages/AlertsPage"
+import javascriptAlert from "../Pages/AlertsPage"
 
 describe.only('Dealing with different kind of Alert Windows', () => {
 

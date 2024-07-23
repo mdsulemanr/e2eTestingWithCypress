@@ -1,5 +1,5 @@
-import Login from "../PageObject/LoginPage"     // import the Login Class
-import Login2 from "../PageObject/LoginPage2"    // import the Login Class
+import Login from "../Pages/LoginPage"     // import the Login Class
+import Login2 from "../Pages/LoginPage2"    // import the Login Class
 
 describe('LoginWithPOM', ()=>{
 
