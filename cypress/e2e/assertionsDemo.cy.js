@@ -1,61 +1,39 @@
-// cypress/e2e/assertionsDemo.spec.js
-
-import LoginPage from '../pages/LoginPage';
-import { TEXTS, EXPECTED_VALUES } from '../constants/constants';
+import { LoginPage, USER_DROPDOWN_NAME_SELECTOR } from '../Pages/AssertionsPage';
+import { EXPECTED_TEXTS } from '../constants/constants';
 
 describe('Assertions demo', () => {
-    const loginPage = new LoginPage();
 
-    it("Implicit assertions", () => {
-        loginPage.visit();
+  it("Implicit assertions", () => {
+    LoginPage.visit();
+    LoginPage.validateURL();
+    LoginPage.validateTitle();
+    LoginPage.validateLogo();
+    LoginPage.validateLinks();
+    LoginPage.enterUsername();
+    LoginPage.validateLoginButtonVisibility();
+    LoginPage.validateNavBar();
+    LoginPage.validateWelcomeMessage();
+    LoginPage.validateListItems();
+    LoginPage.validateHeaderFontSize();
+    LoginPage.validateFocus();
+  });
 
-        // URL assertions
-        loginPage.getUrl().should('include', TEXTS.login.partialUrl);
-        loginPage.getUrl().should('eq', TEXTS.login.exactUrl);
-        loginPage.getUrl().should('contain', TEXTS.login.urlFragment);
+  it("Explicit assertions", () => {
+    LoginPage.visit();
+    LoginPage.enterUsername();
+    LoginPage.enterPassword();
+    LoginPage.submit();
 
-        // Chained assertions
-        loginPage.getUrl().should('include', TEXTS.login.partialUrl)
-            .should('eq', TEXTS.login.exactUrl)
-            .should('contain', TEXTS.login.urlFragment);
-        
-        loginPage.getUrl().should('include', TEXTS.login.partialUrl)
-            .and('eq', TEXTS.login.exactUrl)
-            .and('contain', TEXTS.login.urlFragment)
-            .and('not.contain', TEXTS.login.incorrectUrlFragment);
+    const expName = EXPECTED_TEXTS.expectedUserName;
 
-        // Title assertions
-        loginPage.getTitle().should('include', TEXTS.login.titleContains)
-            .and('eq', TEXTS.login.exactTitle)
-            .and('contain', TEXTS.login.titleFragment);
+    cy.get(USER_DROPDOWN_NAME_SELECTOR).then((compareName) => {
+      const actName = compareName.text();
+      expect(actName).to.equal(expName);
+      expect(actName).to.not.equal(expName);
 
-        // Logo assertions
-        loginPage.getLogo().should('be.visible')
-            .and('exist');
-
-        // Links assertions
-        loginPage.getLinks().should('have.length', TEXTS.login.linksCount);
-
-        // Username input assertions
-        loginPage.getUsernameInput().type(TEXTS.login.username);
-        loginPage.getUsernameInput().should('have.value', EXPECTED_VALUES.login.username);
+      assert.equal(expName, actName);
+      assert.notEqual(expName, actName);
     });
+  });
 
-    it("Explicit assertions", () => {
-        loginPage.visit();
-        loginPage.login(TEXTS.login.username, "admin123");
-
-        let expName = TEXTS.login.expectedName;
-
-        // BDD Style
-        loginPage.getUserDropdownName().then((compareName) => {
-            let actName = compareName.text();
-            expect(actName).to.equal(expName);
-            expect(actName).to.not.equal(expName);
-
-            // TDD Style
-            assert.equal(expName, actName);
-            assert.notEqual(expName, actName);
-        });
-    });
 });

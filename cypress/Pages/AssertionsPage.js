@@ -1,49 +1,86 @@
-// cypress/pages/LoginPage.js
-
-import { URLS, SELECTORS } from '../constants/constants';
-
-class LoginPage {
-    visit() {
-        cy.visit(URLS.loginPage);
+import {
+    LOGIN_URL,
+    USERNAME_SELECTOR,
+    PASSWORD_SELECTOR,
+    SUBMIT_BUTTON_SELECTOR,
+    LOGO_SELECTOR,
+    LINKS_XPATH,
+    USER_DROPDOWN_NAME_SELECTOR,
+    LOGIN_BUTTON_SELECTOR,
+    NAV_BAR_SELECTOR,
+    WELCOME_MESSAGE_SELECTOR,
+    LIST_ITEMS_SELECTOR,
+    HEADER_SELECTOR,
+    EXPECTED_URL,
+    EXPECTED_TEXTS,
+    LINK_COUNT,
+    HEADER_FONT_SIZE,
+    CREDENTIALS
+  } from '../constants/constants';
+  
+  export class LoginPage {
+    static visit() {
+      cy.visit(LOGIN_URL);
     }
-
-    getUrl() {
-        return cy.url();
+  
+    static validateURL() {
+      cy.url().should('include', EXPECTED_TEXTS.urlIncludes)
+              .and('eq', EXPECTED_URL)
+              .and('contain', EXPECTED_TEXTS.urlContains)
+              .and('not.contain', 'greenhrm');
     }
-
-    getTitle() {
-        return cy.title();
+  
+    static validateTitle() {
+      cy.title().should('include', EXPECTED_TEXTS.titleIncludes)
+               .and('eq', EXPECTED_TEXTS.titleEquals)
+               .and('contain', EXPECTED_TEXTS.titleContains);
     }
-
-    getLogo() {
-        return cy.get(SELECTORS.login.logo);
+  
+    static validateLogo() {
+      cy.get(LOGO_SELECTOR).should('be.visible')
+                           .and('exist');
     }
-
-    getLinks() {
-        return cy.xpath(SELECTORS.login.links);
+  
+    static validateLinks() {
+      cy.xpath(LINKS_XPATH).should('have.length', LINK_COUNT);
     }
-
-    getUsernameInput() {
-        return cy.get(SELECTORS.login.usernameInput);
+  
+    static enterUsername(username = CREDENTIALS.username) {
+      cy.get(USERNAME_SELECTOR).type(username)
+                               .should('have.value', username);
     }
-
-    getPasswordInput() {
-        return cy.get(SELECTORS.login.passwordInput);
+  
+    static enterPassword(password = CREDENTIALS.password) {
+      cy.get(PASSWORD_SELECTOR).type(password)
+                               .should('have.value', password);
     }
-
-    getSubmitButton() {
-        return cy.get(SELECTORS.login.submitButton);
+  
+    static submit() {
+      cy.get(SUBMIT_BUTTON_SELECTOR).click();
     }
-
-    getUserDropdownName() {
-        return cy.get(SELECTORS.login.userDropdownName);
+  
+    static validateLoginButtonVisibility() {
+      cy.get(LOGIN_BUTTON_SELECTOR).should('be.visible');
     }
-
-    login(username, password) {
-        this.getUsernameInput().type(username);
-        this.getPasswordInput().type(password);
-        this.getSubmitButton().click();
+  
+    static validateNavBar() {
+      cy.get(NAV_BAR_SELECTOR).should('have.class', 'active');
     }
-}
-
-export default LoginPage;
+  
+    static validateWelcomeMessage() {
+      cy.get(WELCOME_MESSAGE_SELECTOR).should('contain', EXPECTED_TEXTS.welcomeMessage);
+    }
+  
+    static validateListItems() {
+      cy.get(LIST_ITEMS_SELECTOR).should('have.length', LINK_COUNT);
+    }
+  
+    static validateHeaderFontSize() {
+      cy.get(HEADER_SELECTOR).should('have.css', 'font-size', HEADER_FONT_SIZE);
+    }
+  
+    static validateFocus() {
+      cy.get(USERNAME_SELECTOR).focus().should('have.focus');
+    }
+  }
+  
