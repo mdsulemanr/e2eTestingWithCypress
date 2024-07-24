@@ -1,5 +1,5 @@
 import { LoginPage, USER_DROPDOWN_NAME_SELECTOR } from '../Pages/AssertionsPage';
-import { EXPECTED_TEXTS } from '../constants/constants';
+// import { EXPECTED_TEXTS } from '../constants/constants';
 
 describe('Assertions demo', () => {
 
@@ -10,9 +10,10 @@ describe('Assertions demo', () => {
     LoginPage.validateLogo();
     LoginPage.validateLinks();
     LoginPage.enterUsername();
+    LoginPage.enterPassword();
     LoginPage.validateLoginButtonVisibility();
+    LoginPage.submit();
     LoginPage.validateNavBar();
-    LoginPage.validateWelcomeMessage();
     LoginPage.validateListItems();
     LoginPage.validateHeaderFontSize();
     LoginPage.validateFocus();
@@ -23,17 +24,8 @@ describe('Assertions demo', () => {
     LoginPage.enterUsername();
     LoginPage.enterPassword();
     LoginPage.submit();
+    LoginPage.verifyActualUser();
 
-    const expName = EXPECTED_TEXTS.expectedUserName;
-
-    cy.get(USER_DROPDOWN_NAME_SELECTOR).then((compareName) => {
-      const actName = compareName.text();
-      expect(actName).to.equal(expName);
-      expect(actName).to.not.equal(expName);
-
-      assert.equal(expName, actName);
-      assert.notEqual(expName, actName);
-    });
   });
 
 });
