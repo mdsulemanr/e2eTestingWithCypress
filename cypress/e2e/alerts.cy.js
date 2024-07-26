@@ -3,7 +3,7 @@
 import "../Pages/AlertsPage"
 import javascriptAlert from "../Pages/AlertsPage"
 
-describe.only('Dealing with different kind of Alert Windows', () => {
+describe('Dealing with different kind of Alert Windows', () => {
 
     beforeEach('visit site', () => {
         cy.visit("https://the-internet.herokuapp.com/javascript_alerts")
@@ -11,7 +11,7 @@ describe.only('Dealing with different kind of Alert Windows', () => {
 
     //java alert
     //ok button
-    it.only('JS alert', () => {
+    it('JS alert', () => {
 
         const alerts = new javascriptAlert;  // created object
 
@@ -96,7 +96,7 @@ describe('auth', () => {
     //authentication alert, Approach 2
     //authentication alert: text box for user name and password
 
-    it.only("Authenticated alert", () => {
+    it("Authenticated alert", () => {
         // Approach 2
         cy.visit("https://admin:admin@the-internet.herokuapp.com/basic_auth")
         cy.get("div[class='example'] p").should("have.contain", "Congratulations")
