@@ -1,21 +1,22 @@
 //  https://docs.cypress.io/api/cypress-api/catalog-of-events
 
-import "../Pages/AlertsPage"
+// import "../Pages/AlertsPage"
 import javascriptAlert from "../Pages/AlertsPage"
+
+
+const alerts = new javascriptAlert;  // created object
 
 describe('Dealing with different kind of Alert Windows', () => {
 
     beforeEach('visit site', () => {
-        cy.visit("https://the-internet.herokuapp.com/javascript_alerts")
+        cy.visit(alerts.alertURL)
     })
 
     //java alert
     //ok button
     it('JS alert', () => {
 
-        const alerts = new javascriptAlert;  // created object
-
-        alerts.getButton().click()
+        alerts.getButton(alerts.txtButton).click()
         alerts.confirmAlert()
 
         // alert window will automatically be cloased by cypress
@@ -24,28 +25,28 @@ describe('Dealing with different kind of Alert Windows', () => {
     })
 
     it("JS Confirm alert - cancel button", () => {
-        cy.get("button[onclick='jsConfirm()']").click()
+        alerts.getButton(alerts.txtCancelButton).click()
 
         // validate alert text message
-        cy.on("window:confirm", (t) => {
-            expect(t).to.contains("I am a JS Confirm")
+        cy.on(alerts.windowConfirm, (t) => {
+            expect(t).to.contains(alerts.txtConfirmAlert)
         })
         // close the confirm alert by cancel button
-        cy.on("window:confirm", () => false)
+        cy.on(alerts.windowConfirm, () => false)
         //validate text after cancel
-        cy.get("#result").should("have.text", "You clicked: Cancel")
+        cy.get(alerts.txtResult).should("have.text", alerts.msgCancelAlert)
     })
 
 
     //Javascript confirmation alert: ok and cancel button alongwith the text
     it("JS Confirm alert", () => {
-        cy.get("button[onclick='jsConfirm()']").click()
+        cy.get(alerts.txtCancelButton).click()
 
         cy.on("window:confirm", (t) => {
-            expect(t).to.contains("I am a JS Confirm")
+            expect(t).to.contains(alerts.txtConfirmAlert)
             // alert window will automatically be cloased by cypress by clicking ok button by default
             // after that, validate the text message
-            cy.get("#result").should("have.text", "You clicked: Ok")
+            cy.get(alerts.txtResult).should("have.text", alerts.msgOKAlert)
         })
 
     })
@@ -53,53 +54,53 @@ describe('Dealing with different kind of Alert Windows', () => {
     //prompt alert: text box for user text input with "OK" button
     it("JS Prompt alert", () => {
         cy.window().then((win) => {
-            cy.stub(win, 'prompt').returns('welcome')
+            cy.stub(win, 'prompt').returns(alerts.txtWelcome)
         })
-        cy.get("button[onclick='jsPrompt()']").click()
+        cy.get(alerts.txtPromptBtn).click()
 
         // alert window will automatically be cloased by cypress by clicking ok button by default
-        cy.get("#result").should("have.text", "You entered: welcome")
+        cy.get(alerts.txtResult).should("have.text", alerts.msgWelcome)
     })
 
     //prompt alert: text box for user text input with "CANCEL" button
     it("JS Prompt alert", () => {
         cy.window().then((win) => {
-            cy.stub(win, 'prompt').returns('welcome')
+            cy.stub(win, 'prompt').returns(alerts.txtWelcome)
         })
-        cy.get("button[onclick='jsPrompt()']").click()
+        cy.get(alerts.txtPromptBtn).click()
 
         // close the confirm alert by cancel button
         // cy.on("window:prompt", ()=> false) ITS NOT WORKING FOR NOW...........................................
 
         // alert window will automatically be cloased by cypress by clicking ok button by default
-        cy.get("#result").should("have.text", "You entered: null")
+        cy.get(alerts.txtResult).should("have.text", alerts.msgNull)
     })
 })
 
 
-describe('auth', () => {
+describe.only('auth', () => {
 
     //authentication alert, Approach 1
     //authentication alert: text box for user name and password
     it("Authenticated alert", () => {
         // Approach 1
-        cy.visit("https://the-internet.herokuapp.com/basic_auth", {
+        cy.visit(alerts.authURL, {
             auth:
             {
-                username: "admin",
-                password: "admin"
+                username: alerts.CREDENTIALS.username,
+                password: alerts.CREDENTIALS.password
             }
         })
-        cy.get("div[class='example'] p").should("have.contain", "Congratulations")
+        cy.get(alerts.selectConfirmMsg).should("have.contain", alerts.msgCongrats)
     })
 
     //authentication alert, Approach 2
     //authentication alert: text box for user name and password
 
-    it("Authenticated alert", () => {
+    it.only("Authenticated alert", () => {
         // Approach 2
-        cy.visit("https://admin:admin@the-internet.herokuapp.com/basic_auth")
-        cy.get("div[class='example'] p").should("have.contain", "Congratulations")
+        cy.visit(alerts.authURL2)
+        cy.get(alerts.selectConfirmMsg).should("have.contain", alerts.msgCongrats)
     })
 })
 
