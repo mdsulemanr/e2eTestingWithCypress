@@ -45,5 +45,16 @@ describe('Check Radio Buttons', () => {
         radioButtonPage.verifyFirstCheckboxChecked();
         radioButtonPage.checkLastCheckbox();
         radioButtonPage.verifyLastCheckboxChecked();
+
+        // Verify checkbox states and properties
+        radioButtonPage.verifyCheckboxDisabled('input#sunday'); // Example for disabled
+        radioButtonPage.verifyCheckboxEnabled('input#monday'); // Example for enabled
+        radioButtonPage.verifyCheckboxValue('input#monday', 'monday'); // Example for value
+        radioButtonPage.verifyCheckboxLabel('Sunday'); // Example for label
+    });
+
+    it("Toggle checkbox", () => {
+        // Toggle checkbox based on its current state
+        radioButtonPage.toggleCheckbox('input#monday');
     });
 });
