@@ -1,21 +1,23 @@
-describe('My Suite', () => {
-    it.only('Capture SS & Videos', () => {
-        cy.visit("https://demo.opencart.com/")
-        cy.screenshot("homepage")
-        cy.wait(5000)
-        cy.get("img[title='Your Store']").screenshot("logo")
+import CaptureScreenshot from '../Pages/CaptureScreenshot';
 
-    })
+describe('My Suite', () => {
+    const captureScreenshot = new CaptureScreenshot;
+
+    it.only('Capture SS & Videos', () => {
+        captureScreenshot.visit();
+        captureScreenshot.captureHomepageScreenshot();
+        cy.wait(5000);
+        captureScreenshot.captureLogoScreenshot();
+    });
 
     it('Capture SS & Videos - Automatically', () => {
-        cy.visit("https://demo.opencart.com/")
+        captureScreenshot.visit();
 
         // Automatically capture SS & Video on failure - only when you execute through CLI
-        cy.get("li:nth-child(7) a:nth-child(1)").click() // Camera Page
-        cy.wait(5000)
-        cy.get("cy.get('#cf-chl-widget-gfjey')").check().should("be.checked")
-        cy.get("div[id='content'] h2").should("have.text", "Tablets")
-
-    })
-
-})
+        captureScreenshot.clickCameraPage();
+        cy.wait(5000);
+        captureScreenshot.checkWidget();
+        captureScreenshot.verifyWidgetChecked();
+        captureScreenshot.verifyTabletsText();
+    });
+});
