@@ -1,49 +1,49 @@
+import RadioButtonPage from '../Pages/RadioButton';
+
 describe('Check Radio Buttons', () => {
+    const radioButtonPage = new RadioButtonPage();
 
-    beforeEach('visit site', ()=>{
-        cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
-
-    })
+    beforeEach('visit site', () => {
+        radioButtonPage.visit();
+    });
 
     it("Select radio buttons", () => {
+        // Check radio buttons are visible
+        radioButtonPage.verifyMaleRadioButtonVisible();
+        radioButtonPage.verifyFemaleRadioButtonVisible();
 
+        // Check radio buttons are checked
+        radioButtonPage.checkMaleRadioButton();
+        radioButtonPage.verifyMaleRadioButtonChecked();
+        radioButtonPage.verifyFemaleRadioButtonNotChecked();
 
-        // check radio buttons are visible
-        cy.get("input#male").should("be.visible")
-        cy.get("input#female").should("be.visible")
-
-        // check radio buttons are checked
-        cy.get("input#male").check().should("be.checked")
-        cy.get("input#female").should("not.be.checked")
-
-        // check radio buttons are checked
-        cy.get("input#female").check().should("be.checked")
-        cy.get("input#male").should("not.be.checked")
-
-    })
-
+        // Check radio buttons are checked
+        radioButtonPage.checkFemaleRadioButton();
+        radioButtonPage.verifyFemaleRadioButtonChecked();
+        radioButtonPage.verifyMaleRadioButtonNotChecked();
+    });
 
     it("Select check boxes", () => {
+        // Check check boxes are visible
+        radioButtonPage.verifySundayCheckboxVisible();
+        radioButtonPage.verifyMondayCheckboxVisible();
 
-        // cy.visit("https://testautomationpractice.blogspot.com/")  // fisrt visit the site
+        // Select and unselect check box
+        radioButtonPage.checkMondayCheckbox();
+        radioButtonPage.verifyMondayCheckboxChecked();
+        radioButtonPage.uncheckMondayCheckbox();
+        radioButtonPage.verifyMondayCheckboxNotChecked();
 
-        // check check boxes are visible
-        cy.get("input#sunday").should("be.visible")
-        cy.get("input#monday").should("be.visible")
+        // Select and unselect all check boxes
+        radioButtonPage.checkAllCheckboxes();
+        radioButtonPage.verifyAllCheckboxesChecked();
+        radioButtonPage.uncheckAllCheckboxes();
+        radioButtonPage.verifyAllCheckboxesNotChecked();
 
-        // select check box
-        cy.get("input#monday").check().should("be.checked")
-        // un-select check box
-        cy.get("input#monday").uncheck().should("not.be.checked")
-
-        // select all check boxes at once
-        cy.get("div.form-group input.form-check-input[type='checkbox']").check().should("be.checked")
-        // un-select all check boxes
-        cy.get("div.form-group input.form-check-input[type='checkbox']").uncheck().should("not.be.checked")
-        // select only first and last check box
-        cy.get("div.form-group input.form-check-input[type='checkbox']").first().check().should("be.checked")
-        cy.get("div.form-group input.form-check-input[type='checkbox']").last().check().should("be.checked")
-
-    })
-
-})
+        // Select first and last check box
+        radioButtonPage.checkFirstCheckbox();
+        radioButtonPage.verifyFirstCheckboxChecked();
+        radioButtonPage.checkLastCheckbox();
+        radioButtonPage.verifyLastCheckboxChecked();
+    });
+});
