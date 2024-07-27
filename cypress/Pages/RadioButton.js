@@ -50,6 +50,17 @@ class RadioButtonPage {
         cy.get(this.selectors.allCheckboxes).last().check();
     }
 
+    // Custom Command for toggling checkboxes
+    toggleCheckbox(selector) {
+        cy.get(selector).then($checkbox => {
+            if ($checkbox.is(':checked')) {
+                cy.get(selector).uncheck();
+            } else {
+                cy.get(selector).check();
+            }
+        });
+    }
+
     // Assertions
     verifyMaleRadioButtonVisible() {
         cy.get(this.selectors.maleRadioButton).should("be.visible");
@@ -105,6 +116,22 @@ class RadioButtonPage {
 
     verifyLastCheckboxChecked() {
         cy.get(this.selectors.allCheckboxes).last().should("be.checked");
+    }
+
+    verifyCheckboxDisabled(selector) {
+        cy.get(selector).should('be.disabled');
+    }
+
+    verifyCheckboxEnabled(selector) {
+        cy.get(selector).should('be.enabled');
+    }
+
+    verifyCheckboxValue(selector, expectedValue) {
+        cy.get(selector).should('have.value', expectedValue);
+    }
+
+    verifyCheckboxLabel(labelText) {
+        cy.contains('label', labelText).find('input[type="checkbox"]').should('be.visible');
     }
 }
 
