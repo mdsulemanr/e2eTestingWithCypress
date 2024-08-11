@@ -1,59 +1,33 @@
-describe('select dropdown', () => {
+import DropdownPage from '../Pages/DropDown';
 
-    it.skip("Select dropdown", () => {
+describe('Select dropdown', () => {
+    const dropdownPage = new DropdownPage();
 
-        cy.visit("https://www.zoho.com/commerce/free-demo.html")  // fisrt visit the site
+    it("Select dropdown - Zoho", () => {
+        dropdownPage.visitZoho();
+        dropdownPage.selectCountryFromZohoDropdown(dropdownPage.strings.countryItaly);
+        dropdownPage.verifyCountrySelectedInZohoDropdown(dropdownPage.strings.countryItaly);
+    });
 
-        // select country from dropdown
-        cy.get("#zcf_address_country").select("Italy").should("have.value", "Italy")
+    it("Select dropdown - Dummy Ticket", () => {
+        dropdownPage.visitDummyticket();
+        dropdownPage.clickDummyticketCountryContainer();
+        dropdownPage.typeAndSelectCountryInDummyticket(dropdownPage.strings.countryIran);
+        dropdownPage.verifyCountrySelectedInDummyticket(dropdownPage.strings.countryIran);
+    });
 
-    })
+    it("Auto suggested dropdown - Wikipedia", () => {
+        dropdownPage.visitWikipedia();
+        dropdownPage.typeInWikipediaSearchInput(dropdownPage.strings.cityDehli);
+        dropdownPage.clickOnWikipediaSuggestion(dropdownPage.strings.suggestionDehli9);
+    });
 
-
-    it.skip("Select dropdown", () => {
-
-        cy.visit("https://www.dummyticket.com/dummy-ticket-for-visa-application/")  // fisrt visit the site
-
-        // select country from dropdown
-        cy.get('#select2-billing_country-container').click()
-        cy.get("input.select2-search__field[role='combobox']").type("Iran").type('{enter}')
-        cy.get('#select2-billing_country-container').should('have.text', 'Iran')
-
-    })
-
-    it.skip("auto suggested dropdown", () => {
-
-        cy.visit("https://www.wikipedia.org/")  // fisrt visit the site
-
-        // select country from dropdown
-        cy.get('#searchInput').type("Dehli")
-        cy.get(".suggestion-title").contains("Dehli9").click()
-
-
-    })
-
-    it("Dynamic dropdown", () => {
-
-        cy.visit("https://www.google.com/")  // fisrt visit the site
-
-        // select country from dropdown
-        cy.get('textarea#APjFqb').type("cypress automation")
-        cy.wait(3000)
-
-        cy.get('div.wM6W7d>span').should("have.length", 13)
-
-        cy.get("div.wM6W7d>span").each(($el, index, $list) => {
-            // $el is a wrapped jQuery element
-            if ($el.text() === 'cypress automation tutorial') {
-              // wrap this element so we can
-              // use cypress commands on it
-              cy.wrap($el).click()
-            } 
-          })
-        
-            cy.get('textarea#APjFqb').should("have.value", "cypress automation tutorial")
-
-
-    })
-
-})
+    it("Dynamic dropdown - Google", () => {
+        dropdownPage.visitGoogle();
+        dropdownPage.typeInGoogleSearchTextarea(dropdownPage.strings.googleSearchQuery);
+        cy.wait(3000);
+        dropdownPage.verifyGoogleSuggestionsCount(dropdownPage.strings.googleSuggestionLength);
+        dropdownPage.clickOnGoogleSuggestion(dropdownPage.strings.googleExpectedResult);
+        dropdownPage.verifyGoogleSearchTextareaValue(dropdownPage.strings.googleExpectedResult);
+    });
+});
