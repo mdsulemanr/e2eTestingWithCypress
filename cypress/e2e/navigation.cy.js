@@ -1,31 +1,34 @@
-describe('MySuite', () => {
+import NavigationPage from '../Pages/NavigationPage';
+
+describe('Navigation Tests', () => {
+    const navigationPage = new NavigationPage();
+
+    // Navigation Test
     it('NavigationTest', () => {
-        cy.visit("https://demo.opencart.com/")
+        navigationPage.visitOpencart();
+        navigationPage.verifyHomePageTitle();  // Verify home page
 
-        cy.title().should("eq", "Your Store")  // home page
-        cy.get("li:nth-child(7) a:nth-child(1)").click()  // camera page
-        cy.wait(5000)
-        cy.get("cy.get('#cf-chl-widget-gfjey')").check().should("be.checked")
-        cy.get("div[id='content'] h2").should("have.text", "Cameras")
+        navigationPage.clickCameraLink();  // Navigate to camera page
+        cy.wait(5000);
+        navigationPage.checkWidgetCheckbox();
+        navigationPage.verifyCamerasHeader();  // Verify cameras page
 
-        cy.go("back")
-        cy.title().should("eq", "Your Store")  // home page
+        cy.go("back");  // Navigate back
+        navigationPage.verifyHomePageTitle();  // Verify home page
 
-        cy.go("forward")  // camera page
-        cy.wait(5000)
-        cy.get("cy.get('#cf-chl-widget-gfjey')").check().should("be.checked")
-        cy.get("div[id='content'] h2").should("have.text", "Cameras")
+        cy.go("forward");  // Navigate forward to camera page
+        cy.wait(5000);
+        navigationPage.checkWidgetCheckbox();
+        navigationPage.verifyCamerasHeader();  // Verify cameras page
 
-        cy.go(-1)
-        cy.title().should("eq", "Your Store")  // home page
+        cy.go(-1);  // Navigate back
+        navigationPage.verifyHomePageTitle();  // Verify home page
 
-        cy.go(1)
-        cy.wait(5000)
-        cy.get("cy.get('#cf-chl-widget-gfjey')").check().should("be.checked")
-        cy.get("div[id='content'] h2").should("have.text", "Cameras")
+        cy.go(1);  // Navigate forward to camera page
+        cy.wait(5000);
+        navigationPage.checkWidgetCheckbox();
+        navigationPage.verifyCamerasHeader();  // Verify cameras page
 
-        cy.reload()
-
-    })
-
-})
+        navigationPage.reloadPage();  // Reload the page
+    });
+});
